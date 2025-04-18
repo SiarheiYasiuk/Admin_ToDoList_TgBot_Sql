@@ -1,0 +1,23 @@
+-- 1. Создаем таблицу пользователей
+CREATE TABLE users (
+    user_id BIGINT PRIMARY KEY,
+    username VARCHAR(100)
+);
+
+-- 2. Создаем таблицу задач
+CREATE TABLE tasks (
+    task_id SERIAL PRIMARY KEY,
+    user_id BIGINT REFERENCES users(user_id),
+    description TEXT NOT NULL,
+    deadline TIMESTAMP,
+    category VARCHAR(50),
+    is_completed BOOLEAN DEFAULT FALSE,
+    reminder_minutes INTEGER DEFAULT 60  -- За сколько минут напоминать
+);
+
+-- 3. Таблица для хранения отправленных напоминаний (опционально)
+CREATE TABLE send_reminders (
+    reminder_id SERIAL PRIMARY KEY,
+    task_id INTEGER REFERENCES tasks(task_id),
+    sent_at TIMESTAMP DEFAULT NOW()
+);
